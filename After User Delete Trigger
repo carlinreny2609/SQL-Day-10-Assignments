@@ -1,0 +1,34 @@
+create database assignment;
+
+create table Userlogindelete(
+id int(10) AUTO_INCREMENT primary key,
+name varchar(100) not null,
+Users int not null,
+act varchar(50) not null
+);
+
+create table Userlogin(
+name varchar(50) not null,
+Users int not null
+);
+
+# user datas in User table
+---------------------------
+insert into Userlogin (name,users) values ('BankOfficer','50'),('Security','50'),('Cashier','30');
+
+
+After delete Trigger:
+---------------------
+DELIMITER $$
+CREATE TRIGGER after_user_delete
+AFTER DELETE
+ON Userlogin FOR EACH ROW
+BEGIN
+ INSERT INTO Userlogindelete(name ,Users,act) values ( old.name , old.users , 'delete');
+END $$
+DELIMITER ;
+
+delete from Userlogin where users ='30';
+
+SELECT * FROM Userlogin; 
+select * from Userlogindelete;
